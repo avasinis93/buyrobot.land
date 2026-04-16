@@ -3,6 +3,7 @@ import { ROBOT_TYPES, CATEGORIES, PRICE_TIERS } from "@/lib/constants";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 import ProductDetail from "@/components/ProductDetail";
+import SignalFeed from "@/components/SignalFeed";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
@@ -54,6 +55,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     .select("*")
     .eq("manufacturer_id", product.manufacturer_id);
 
+  // Get signals for this product and manufacturer
+  const { data: signals } = await supabase
+    .from("signals")
+    .select("*")
+    .or(`product_id.eq.${product.id},manufacturer_id.eq.${product.manufacturer_id}`)
+    .order("event_date", { ascending: false })
+    .limit(5);
+
   return (
     <div className="max-w-[860px] mx-auto px-6">
       <Navbar />
@@ -62,6 +71,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         similarProducts={similar || []}
         appearances={appearances || []}
       />
+      <SignalFeed signals={signals || []} title="Recent activity" />
       <Footer />
     </div>
   );

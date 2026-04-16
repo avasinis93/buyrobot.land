@@ -264,6 +264,40 @@ export type Application = {
   created_at: string
 }
 
+export type SignalType =
+  | 'deployment'
+  | 'funding'
+  | 'acquisition'
+  | 'patent'
+  | 'product_launch'
+  | 'executive_move'
+  | 'regulatory'
+  | 'contract_win'
+  | 'partnership'
+  | 'milestone'
+
+export type Signal = {
+  id: string
+  signal_type: SignalType
+  manufacturer_id: string | null
+  product_id: string | null
+  related_manufacturer_id: string | null
+  event_date: string
+  title: string
+  summary: string | null
+  amount_usd: number | null
+  unit_count: number | null
+  valuation_usd: number | null
+  counterparty: string | null
+  counterparty_type: string | null
+  source_url: string
+  source_name: string | null
+  extracted_by: string | null
+  confidence_score: number | null
+  verified: boolean
+  created_at: string
+}
+
 // ── Composed types ─────────────────────────────────────────────────
 
 export type ProductWithManufacturer = Product & {

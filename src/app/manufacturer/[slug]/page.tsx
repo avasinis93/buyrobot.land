@@ -2,6 +2,7 @@ import { createServerClient } from "@/lib/supabase-server";
 import { ROBOT_TYPES } from "@/lib/constants";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import SignalFeed from "@/components/SignalFeed";
 import { RobotIcon } from "@/components/icons/RobotIcons";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -56,6 +57,13 @@ export default async function ManufacturerPage({
     .select("*")
     .eq("manufacturer_id", mfr.id)
     .order("event_year", { ascending: false });
+
+  const { data: signals } = await supabase
+    .from("signals")
+    .select("*")
+    .eq("manufacturer_id", mfr.id)
+    .order("event_date", { ascending: false })
+    .limit(10);
 
   return (
     <div className="max-w-[860px] mx-auto px-6">
@@ -179,6 +187,9 @@ export default async function ManufacturerPage({
             </Link>
           );
         })}
+
+        {/* Signals / Recent activity */}
+        <SignalFeed signals={signals || []} title="Recent activity" />
 
         {/* Tradeshow appearances */}
         {appearances && appearances.length > 0 && (
