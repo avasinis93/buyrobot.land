@@ -50,6 +50,7 @@ export default function RobotsBrowse({ initialProducts, defaultType }: RobotsBro
   const [typeFilter, setTypeFilter] = useState(defaultType ?? "");
   const [catFilter, setCatFilter] = useState("");
   const [ndaaOnly, setNdaaOnly] = useState(false);
+  const [regFilter, setRegFilter] = useState("");
 
   // Derive unique categories present in data for the dropdown
   const availableCategories = useMemo(() => {
@@ -69,6 +70,17 @@ export default function RobotsBrowse({ initialProducts, defaultType }: RobotsBro
       if (typeFilter && p.type !== typeFilter) return false;
       if (catFilter && p.category !== catFilter) return false;
       if (ndaaOnly && !p.ndaa_compliant) return false;
+      if (regFilter) {
+        const approvals = p.regulatory_approvals || [];
+        const hasApproval = approvals.some((ra: any) => {
+          if (regFilter === "blue_uas") return ra.approval_type === "Blue UAS Cleared";
+          if (regFilter === "faa_doc") return ra.regulator === "FAA" && ra.approval_type === "DoC";
+          if (regFilter === "easa") return ra.regulator === "EASA";
+          if (regFilter === "fda_510k") return ra.regulator === "FDA" && ra.approval_type === "510(k)";
+          return false;
+        });
+        if (!hasApproval) return false;
+      }
       if (q) {
         const mfrName = p.manufacturer?.name ?? "";
         const haystack = `${p.name} ${p.model ?? ""} ${mfrName} ${typeLabel(p.type)} ${categoryLabel(p.category)} ${p.description ?? ""}`.toLowerCase();
@@ -76,15 +88,16 @@ export default function RobotsBrowse({ initialProducts, defaultType }: RobotsBro
       }
       return true;
     });
-  }, [initialProducts, query, typeFilter, catFilter, ndaaOnly]);
+  }, [initialProducts, query, typeFilter, catFilter, ndaaOnly, regFilter]);
 
-  const hasFilters = typeFilter || catFilter || ndaaOnly || query;
+  const hasFilters = typeFilter || catFilter || ndaaOnly || regFilter || query;
 
   function clearAll() {
     setQuery("");
     setTypeFilter(defaultType ?? "");
     setCatFilter("");
     setNdaaOnly(false);
+    setRegFilter("");
   }
 
   // Active filter labels for the result count line
@@ -92,6 +105,12 @@ export default function RobotsBrowse({ initialProducts, defaultType }: RobotsBro
   if (typeFilter) activeLabels.push(typeLabel(typeFilter));
   if (catFilter) activeLabels.push(categoryLabel(catFilter));
   if (ndaaOnly) activeLabels.push("NDAA");
+  if (regFilter) {
+    const regLabels: Record<string, string> = {
+      blue_uas: "Blue UAS", faa_doc: "FAA DoC", easa: "EASA certified", fda_510k: "FDA 510(k)",
+    };
+    activeLabels.push(regLabels[regFilter] || regFilter);
+  }
 
   return (
     <section className="mt-8 mb-10">
@@ -145,6 +164,20 @@ export default function RobotsBrowse({ initialProducts, defaultType }: RobotsBro
               {categoryLabel(code)}
             </option>
           ))}
+        </select>
+
+        {/* Regulatory filter */}
+        <select
+          value={regFilter}
+          onChange={(e) => setRegFilter(e.target.value)}
+          className="border border-gray-200 rounded-md px-3 py-1.5 text-[13px] text-[#555] bg-white focus:outline-none focus:border-[#999] transition-colors cursor-pointer"
+          style={{ fontFamily: "var(--font-body)" }}
+        >
+          <option value="">All certifications</option>
+          <option value="blue_uas">Blue UAS Cleared</option>
+          <option value="faa_doc">FAA DoC (Part 107)</option>
+          <option value="easa">EASA Certified (C0–C6)</option>
+          <option value="fda_510k">FDA 510(k) Cleared</option>
         </select>
 
         {/* NDAA checkbox */}

@@ -153,7 +153,7 @@ export default function ProductDetail({ product, similarProducts, appearances }:
           </p>
 
           {/* Certification badges */}
-          <div className="flex gap-2 mb-5">
+          <div className="flex flex-wrap gap-2 mb-3">
             <span
               className={`text-[11px] px-2 py-[2px] rounded-[4px] border ${
                 product.ndaa_compliant
@@ -172,7 +172,72 @@ export default function ProductDetail({ product, similarProducts, appearances }:
                 CE marked
               </span>
             )}
+            {product.fcc_approved && (
+              <span
+                className="text-[11px] text-green-700 border border-green-300 bg-green-50 px-2 py-[2px] rounded-[4px]"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                FCC approved
+              </span>
+            )}
+            {product.blue_suas && (
+              <span
+                className="text-[11px] text-blue-700 border border-blue-300 bg-blue-50 px-2 py-[2px] rounded-[4px]"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Blue UAS
+              </span>
+            )}
+            {product.ul_listed && (
+              <span
+                className="text-[11px] text-green-700 border border-green-300 bg-green-50 px-2 py-[2px] rounded-[4px]"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                UL listed
+              </span>
+            )}
           </div>
+
+          {/* Regulatory approvals */}
+          {product.regulatory_approvals && product.regulatory_approvals.length > 0 && (
+            <div className="mb-5 border border-gray-100 rounded-md p-3">
+              <p
+                className="text-[10px] text-[#999] uppercase tracking-[1.5px] mb-2"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Regulatory approvals
+              </p>
+              <div className="flex flex-col gap-1.5">
+                {product.regulatory_approvals.map((ra: any, i: number) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <span className="text-green-600 text-[12px]">✓</span>
+                    <span className="text-[12px] text-[#555]">
+                      <span className="font-medium">{ra.regulator}</span>
+                      {" "}{ra.approval_type}
+                      {ra.id && (
+                        <span className="text-[#999]" style={{ fontFamily: "var(--font-mono)" }}>
+                          {" "}({ra.id})
+                        </span>
+                      )}
+                      {ra.notified_body && (
+                        <span className="text-[#999]"> — {ra.notified_body}</span>
+                      )}
+                    </span>
+                    {ra.url && (
+                      <a
+                        href={ra.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] text-[#aaa] hover:text-[#555] transition-colors"
+                      >
+                        ↗
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Description */}
           <p className="text-[14px] text-[#555] leading-relaxed mb-6">

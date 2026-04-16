@@ -162,9 +162,40 @@ export type Product = {
   verified: boolean
   verified_by: string | null
 
+  // Regulatory
+  regulatory_approvals: RegulatoryApproval[]
+
   // Timestamps
   created_at: string
   updated_at: string
+}
+
+export type RegulatoryApproval = {
+  regulator: string
+  approval_type: string
+  id?: string
+  product_code?: string
+  notified_body?: string
+  date?: string
+  url?: string
+  status?: string
+}
+
+export type RegulatorySource = {
+  id: string
+  name: string
+  regulator: string
+  country: string | null
+  category: string | null
+  source_url: string | null
+  api_url: string | null
+  last_scraped_at: string | null
+  next_scrape_at: string | null
+  record_count: number
+  scrape_frequency: string | null
+  active: boolean
+  notes: string | null
+  created_at: string
 }
 
 export type Manufacturer = {
