@@ -181,7 +181,7 @@ export type RegulatoryApproval = {
   status?: string
 }
 
-export type RegulatorySource = {
+export type DataSource = {
   id: string
   name: string
   regulator: string
