@@ -35,7 +35,7 @@ export default async function ApplicationPage({ params }: { params: Promise<{ sl
   if (!app) notFound();
 
   return (
-    <div className="max-w-[860px] mx-auto px-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Navbar />
       <div className="py-10">
         <Link href="/applications" className="text-[13px] text-[#888] hover:text-[#555] transition-colors">

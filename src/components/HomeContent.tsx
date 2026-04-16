@@ -65,7 +65,7 @@ export default function HomeContent() {
       <p className="text-[11px] font-medium text-[#bbb] uppercase tracking-[2px] mb-4">
         Browse by type
       </p>
-      <div className="grid grid-cols-3 gap-3 mb-14">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-14">
         {TYPES_DATA.map((t, i) => (
           <Link
             key={t.code}
@@ -114,7 +114,7 @@ export default function HomeContent() {
       </div>
 
       {/* Stats bar */}
-      <div className="grid grid-cols-4 gap-px bg-gray-200 rounded-md overflow-hidden mb-12">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-gray-200 rounded-md overflow-hidden mb-12">
         {[
           ["4,200", "Robots & drones listed"],
           ["1,800", "Manufacturers worldwide"],

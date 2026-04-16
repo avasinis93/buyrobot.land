@@ -86,7 +86,7 @@ export default function ApplicationsMosaic({ applications }: ApplicationsMosaicP
       </p>
 
       {/* Mosaic grid */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {applications.map((app) => {
           const isWide = wideSlugs.has(app.slug);
           const imageSrc = imageMap[app.slug];
@@ -96,7 +96,7 @@ export default function ApplicationsMosaic({ applications }: ApplicationsMosaicP
               key={app.id || app.slug}
               href={`/applications/${app.slug}`}
               className={`group border border-gray-200 rounded-lg overflow-hidden transition-all duration-200 hover:border-gray-400 hover:-translate-y-[2px] ${
-                isWide ? "col-span-2" : "col-span-1"
+                isWide ? "col-span-1 sm:col-span-2" : "col-span-1"
               }`}
             >
               {/* Scene illustration */}

@@ -34,7 +34,7 @@ export default async function TypePage({ params }: { params: Promise<{ type: str
     .order("created_at", { ascending: false });
 
   return (
-    <div className="max-w-[860px] mx-auto px-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Navbar />
       <div className="pt-8 pb-2">
         <p className="text-[11px] uppercase tracking-[1.5px] text-[#999] mb-1.5" style={{ fontFamily: "var(--font-mono)" }}>

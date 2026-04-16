@@ -18,7 +18,7 @@ export default async function ApplicationsPage() {
     .order("sort_order", { ascending: true });
 
   return (
-    <div className="max-w-[860px] mx-auto px-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Navbar />
       <ApplicationsMosaic applications={applications || []} />
       <Footer />
