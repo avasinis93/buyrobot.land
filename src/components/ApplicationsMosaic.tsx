@@ -100,13 +100,14 @@ export default function ApplicationsMosaic({ applications }: ApplicationsMosaicP
               }`}
             >
               {/* Scene illustration */}
-              <div className={`w-full ${isWide ? "h-[180px]" : "h-[160px]"} relative opacity-80 group-hover:opacity-100 transition-opacity duration-200`}>
+              <div className="w-full opacity-80 group-hover:opacity-100 transition-opacity duration-200">
                 {imageSrc ? (
                   <Image
                     src={imageSrc}
                     alt={app.title}
-                    fill
-                    className="object-cover"
+                    width={1376}
+                    height={768}
+                    className="w-full h-auto"
                     sizes={isWide ? "860px" : "420px"}
                   />
                 ) : (
